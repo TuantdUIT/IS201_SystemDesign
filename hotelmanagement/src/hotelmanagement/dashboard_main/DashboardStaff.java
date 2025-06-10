@@ -84,6 +84,9 @@ public class DashboardStaff extends javax.swing.JFrame {
         btnDeleteInvoices = new javax.swing.JButton();
         btnUpdateInvoices = new javax.swing.JButton();
         ConfirmRequest = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         CardPayCheckout = new javax.swing.JPanel();
         btnPay = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -391,15 +394,43 @@ public class DashboardStaff extends javax.swing.JFrame {
 
         ConfirmRequest.setForeground(new java.awt.Color(255, 204, 102));
 
+        jLabel10.setText("jLabel10");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane6.setViewportView(jTable1);
+
         javax.swing.GroupLayout ConfirmRequestLayout = new javax.swing.GroupLayout(ConfirmRequest);
         ConfirmRequest.setLayout(ConfirmRequestLayout);
         ConfirmRequestLayout.setHorizontalGroup(
             ConfirmRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 937, Short.MAX_VALUE)
+            .addGroup(ConfirmRequestLayout.createSequentialGroup()
+                .addGroup(ConfirmRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ConfirmRequestLayout.createSequentialGroup()
+                        .addGap(170, 170, 170)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ConfirmRequestLayout.createSequentialGroup()
+                        .addGap(405, 405, 405)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(225, Short.MAX_VALUE))
         );
         ConfirmRequestLayout.setVerticalGroup(
             ConfirmRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 688, Short.MAX_VALUE)
+            .addGroup(ConfirmRequestLayout.createSequentialGroup()
+                .addGap(166, 166, 166)
+                .addComponent(jLabel10)
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         CardLayout_Management.add(ConfirmRequest, "card7");
@@ -1573,6 +1604,7 @@ public class DashboardStaff extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdateService;
     private javax.swing.JButton btnViewDetails;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1588,6 +1620,7 @@ public class DashboardStaff extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -1598,6 +1631,7 @@ public class DashboardStaff extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPanel panelBtn;
     private javax.swing.JPanel panelMain;
     private javax.swing.JTable pay_table;

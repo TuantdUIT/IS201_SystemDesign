@@ -42,8 +42,8 @@ public class DashboardClient extends javax.swing.JFrame {
     public DashboardClient() {
         initComponents();
         pnlCard.add(CardMyRooms, "MyRooms");
-        //pnlCard.add(CardMyServices, "MyServices");
-        pnlCard.add(CardOrders, "BookRooms");
+        pnlCard.add(CardMyServices, "MyServices");
+        pnlCard.add(CardOrdersDELETED, "BookRooms");
         pnlCard.add(CardBookServices, "BookServices");
         
         
@@ -283,7 +283,7 @@ public class DashboardClient extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         tabUserServices = new javax.swing.JTable();
         Title4 = new javax.swing.JLabel();
-        CardOrders = new javax.swing.JPanel();
+        CardOrdersDELETED = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         Title = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -350,7 +350,7 @@ public class DashboardClient extends javax.swing.JFrame {
         panelBook.setBackground(new java.awt.Color(46, 121, 130));
         panelBook.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
-        btnBookRooms.setText("Booking(Order)");
+        btnBookRooms.setText("Send new request");
         btnBookRooms.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBookRoomsActionPerformed(evt);
@@ -369,9 +369,9 @@ public class DashboardClient extends javax.swing.JFrame {
         panelBookLayout.setVerticalGroup(
             panelBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBookLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnBookRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -416,7 +416,7 @@ public class DashboardClient extends javax.swing.JFrame {
                 .addComponent(lblHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(panelMyInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGap(63, 63, 63)
                 .addComponent(panelBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnExit)
@@ -606,12 +606,12 @@ public class DashboardClient extends javax.swing.JFrame {
 
         pnlCard.add(CardMyServices, "card3");
 
-        CardOrders.setBackground(new java.awt.Color(255, 255, 255));
-        CardOrders.setPreferredSize(new java.awt.Dimension(837, 577));
+        CardOrdersDELETED.setBackground(new java.awt.Color(255, 255, 255));
+        CardOrdersDELETED.setPreferredSize(new java.awt.Dimension(837, 577));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        Title.setText("Order Table");
+        Title.setText("REQUESTS SENT");
         Title.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
 
         tblOrders.setModel(new javax.swing.table.DefaultTableModel(
@@ -635,7 +635,7 @@ public class DashboardClient extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblOrders);
 
-        btnCreate.setText("Create");
+        btnCreate.setText("Send new request");
         btnCreate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -656,37 +656,37 @@ public class DashboardClient extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(Title)
-                        .addGap(333, 333, 333))
+                        .addGap(292, 292, 292))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(355, 355, 355))))
+                        .addComponent(btnCreate)
+                        .addGap(374, 374, 374))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(40, 40, 40)
                 .addComponent(Title)
-                .addGap(44, 44, 44)
+                .addGap(46, 46, 46)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addGap(42, 42, 42)
                 .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout CardOrdersLayout = new javax.swing.GroupLayout(CardOrders);
-        CardOrders.setLayout(CardOrdersLayout);
-        CardOrdersLayout.setHorizontalGroup(
-            CardOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout CardOrdersDELETEDLayout = new javax.swing.GroupLayout(CardOrdersDELETED);
+        CardOrdersDELETED.setLayout(CardOrdersDELETEDLayout);
+        CardOrdersDELETEDLayout.setHorizontalGroup(
+            CardOrdersDELETEDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-        CardOrdersLayout.setVerticalGroup(
-            CardOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CardOrdersLayout.createSequentialGroup()
+        CardOrdersDELETEDLayout.setVerticalGroup(
+            CardOrdersDELETEDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CardOrdersDELETEDLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        pnlCard.add(CardOrders, "card4");
+        pnlCard.add(CardOrdersDELETED, "card4");
 
         CardBookServices.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -835,8 +835,11 @@ public class DashboardClient extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMyServicesActionPerformed
 
     private void btnBookRoomsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookRoomsActionPerformed
-        CardLayout layout = (CardLayout) pnlCard.getLayout();
-        layout.show(pnlCard, "BookRooms");
+//        CardLayout layout = (CardLayout) pnlCard.getLayout();
+//        layout.show(pnlCard, "BookRooms");
+        OrderOptions order = new OrderOptions();
+        order.setDefaultCloseOperation(order.DO_NOTHING_ON_CLOSE);
+        order.setVisible(true);
     }//GEN-LAST:event_btnBookRoomsActionPerformed
     
     public boolean isRoomAvailable(Connection conn, String maPhong, LocalDate ngayCheckin, LocalDate ngayCheckout) throws SQLException {
@@ -855,8 +858,13 @@ public class DashboardClient extends javax.swing.JFrame {
     }
 }
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        ClientOrderForm order = new ClientOrderForm();
-        order.setVisible(true);
+        try {
+            ClientOrderForm order = null;
+            order = new ClientOrderForm();
+            order.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(DashboardClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnBookSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookSActionPerformed
@@ -885,7 +893,6 @@ public class DashboardClient extends javax.swing.JFrame {
                         + "VALUES ('" + Current_User.MaKH + "', NULL, trim(?), NULL, NUll, ?, ?, NULL, 'Chưa thanh toán')";
                 PreparedStatement pst = con.prepareStatement(sql);
                 
-                //Lay cot MADVTI tu` dong duoc chon trong bang
                 String MaDVTI = tabServices.getValueAt(selectedRow, 0).toString();
                 pst.setString(1, MaDVTI);
                 
@@ -978,7 +985,7 @@ public class DashboardClient extends javax.swing.JFrame {
     private javax.swing.JPanel CardBookServices;
     private javax.swing.JPanel CardMyRooms;
     private javax.swing.JPanel CardMyServices;
-    private javax.swing.JPanel CardOrders;
+    private javax.swing.JPanel CardOrdersDELETED;
     private javax.swing.JLabel Title;
     private javax.swing.JLabel Title1;
     private javax.swing.JLabel Title2;
