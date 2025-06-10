@@ -13,6 +13,7 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
     /**
      * Creates new form AddInvoiceForm_New
      */
+    private DashboardStaff parent;
     public AddInvoiceForm_New() {
         initComponents();
         setLocationRelativeTo(null);
@@ -264,64 +265,64 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
-        dba_connection connect = new dba_connection();
-        // Lấy dữ liệu từ các trường văn bản (JTextField) bằng getText()
-        String phoneNumber = txtSDT.getText();
-        String dayCreated = dpCreate.getText();
-        String dayPaid = dpPaid.getText();
-        String total = txtTotal.getText();
-        String totalPaid = txtPaid.getText();
-        String totalReturn = txtReturn.getText();
-        String note = txtNote.getText();
-
-        // Lấy dữ liệu từ các dropdown (JComboBox) bằng getSelectedItem()
-        String paymentStatus = (String) cbxPaid.getSelectedItem();
-        String usageStatus = (String) cbxUsage.getSelectedItem();
-
-        
-
-        
-
-           try {
-                Class.forName(connect.driver);
-                Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
-
-                // Chèn thông tin vào CSDL
-                String sql = "INSERT INTO HOADON (MAKH, MADVP, MADVTI, NGUOIXACNHAN, " +
-                " NGAYBD, NGAYKT, NGAYTHANHTOAN, TINHTRANGTT) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-                //java.util.Date dayCreated = sdf.parse(ftxtDayCreated.getText());
-
-                //java.sql.Date sqlDate1 = new java.sql.Date(dayCreated.getTime());
-                java.sql.Date sqlDate2 = dayStarted != null ? Date.valueOf(dayStarted) : null;
-                java.sql.Date sqlDate3 = dayEnded != null ? Date.valueOf(dayEnded) : null;
-                java.sql.Date sqlDate4 = dayPaid != null ? Date.valueOf(dayPaid) : null;
-                PreparedStatement pst = con.prepareStatement(sql);
-                pst.setString(1, customerID); // MAKH
-                pst.setString(2, roomID);     // MADVP
-                pst.setString(3, serviceID);  // MADVTI
-
-                pst.setString(4, staffID);    // NGUOIXACNHAN
-
-                //pst.setDate(6, sqlDate1);
-                pst.setDate(5, sqlDate2);
-                pst.setDate(6, sqlDate3);
-                pst.setDate(7, sqlDate4);
-
-                //pst.setInt(9, total);        // TONGTIEN
-                pst.setString(8, paymentStatus); // TINHTRANGTT
-
-                pst.executeUpdate();
-                JOptionPane.showMessageDialog(this, "Add invoice sucessfully!");
-
-            } catch (SQLException | ClassNotFoundException ex){
-                JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
-            }catch (DateTimeParseException e){
-                JOptionPane.showMessageDialog(this, "Invalid date");
-            }
-        }
-        //int total = Integer.parseInt(txtTotal.getText());
+//        dba_connection connect = new dba_connection();
+//        // Lấy dữ liệu từ các trường văn bản (JTextField) bằng getText()
+//        String phoneNumber = txtSDT.getText();
+//        String dayCreated = dpCreate.getText();
+//        String dayPaid = dpPaid.getText();
+//        String total = txtTotal.getText();
+//        String totalPaid = txtPaid.getText();
+//        String totalReturn = txtReturn.getText();
+//        String note = txtNote.getText();
+//
+//        // Lấy dữ liệu từ các dropdown (JComboBox) bằng getSelectedItem()
+//        String paymentStatus = (String) cbxPaid.getSelectedItem();
+//        String usageStatus = (String) cbxUsage.getSelectedItem();
+//
+//        
+//
+//        
+//
+//           try {
+//                Class.forName(connect.driver);
+//                Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
+//
+//                // Chèn thông tin vào CSDL
+//                String sql = "INSERT INTO HOADON (MAKH, MADVP, MADVTI, NGUOIXACNHAN, " +
+//                " NGAYBD, NGAYKT, NGAYTHANHTOAN, TINHTRANGTT) " +
+//                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+//
+//                //java.util.Date dayCreated = sdf.parse(ftxtDayCreated.getText());
+//
+//                //java.sql.Date sqlDate1 = new java.sql.Date(dayCreated.getTime());
+//                java.sql.Date sqlDate2 = dayStarted != null ? Date.valueOf(dayStarted) : null;
+//                java.sql.Date sqlDate3 = dayEnded != null ? Date.valueOf(dayEnded) : null;
+//                java.sql.Date sqlDate4 = dayPaid != null ? Date.valueOf(dayPaid) : null;
+//                PreparedStatement pst = con.prepareStatement(sql);
+//                pst.setString(1, customerID); // MAKH
+//                pst.setString(2, roomID);     // MADVP
+//                pst.setString(3, serviceID);  // MADVTI
+//
+//                pst.setString(4, staffID);    // NGUOIXACNHAN
+//
+//                //pst.setDate(6, sqlDate1);
+//                pst.setDate(5, sqlDate2);
+//                pst.setDate(6, sqlDate3);
+//                pst.setDate(7, sqlDate4);
+//
+//                //pst.setInt(9, total);        // TONGTIEN
+//                pst.setString(8, paymentStatus); // TINHTRANGTT
+//
+//                pst.executeUpdate();
+//                JOptionPane.showMessageDialog(this, "Add invoice sucessfully!");
+//
+//            } catch (SQLException | ClassNotFoundException ex){
+//                JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+//            }catch (DateTimeParseException e){
+//                JOptionPane.showMessageDialog(this, "Invalid date");
+//            }
+//        }
+//        //int total = Integer.parseInt(txtTotal.getText());
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed

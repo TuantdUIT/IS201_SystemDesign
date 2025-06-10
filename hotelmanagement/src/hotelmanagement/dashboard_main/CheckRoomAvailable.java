@@ -36,29 +36,29 @@ public class CheckRoomAvailable extends javax.swing.JFrame {
         dba_connection connect = new dba_connection();
         ArrayList<Invoice> Invoices = new ArrayList<>();
         
-        String sql = "SELECT * FROM HOADON WHERE MADVP = ?";
-        try {
-            Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, MaDVP);
-            ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
-                Invoice inv = new Invoice(); // CTHD
-                inv.setNgayBD(rs.getString("NGAYBD")); 
-                inv.setNgayKT(rs.getString("NGAYKT"));
-                Invoices.add(inv);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Cannot load room checkin checkout date infomation!" + ex.getMessage());
-        }
-        DefaultTableModel model = (DefaultTableModel) tabCheckRoom.getModel();
-        model.setRowCount(0); 
-        for (Invoice i : Invoices) {
-        model.addRow(new Object[] {
-        i.getNgayBD(),
-        i.getNgayKT()
-        });
-        }
+//        String sql = "SELECT * FROM HOADON WHERE MADVP = ?";
+//        try {
+//            Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
+//            PreparedStatement pst = con.prepareStatement(sql);
+//            pst.setString(1, MaDVP);
+//            ResultSet rs = pst.executeQuery();
+//            while (rs.next()) {
+//                Invoice inv = new Invoice(); // CTHD
+//                inv.setNgayBD(rs.getString("NGAYBD")); 
+//                inv.setNgayKT(rs.getString("NGAYKT"));
+//                Invoices.add(inv);
+//            }
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(null, "Cannot load room checkin checkout date infomation!" + ex.getMessage());
+//        }
+//        DefaultTableModel model = (DefaultTableModel) tabCheckRoom.getModel();
+//        model.setRowCount(0); 
+//        for (Invoice i : Invoices) {
+//        model.addRow(new Object[] {
+//        i.getNgayBD(),
+//        i.getNgayKT()
+//        });
+//        }
         
     }
     

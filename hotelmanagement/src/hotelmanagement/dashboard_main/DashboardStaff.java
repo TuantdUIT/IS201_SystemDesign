@@ -4,8 +4,8 @@
  */
 package hotelmanagement.dashboard_main;
 
-import hotelmanagement.add.CTHD_Form;
 import hotelmanagement.add.AddInvoiceForm_New;
+import hotelmanagement.add.CTHD_Form;
 import hotelmanagement.add.AddRoomForm;
 import hotelmanagement.add.AddServiceForm;
 import hotelmanagement.entity.Current_User;
@@ -280,15 +280,32 @@ public class DashboardStaff extends javax.swing.JFrame {
 
         tblInvoices.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Invoice ID", "Customer ID", "Day Created", "Day Paid", "Payment Status", "Total", "Total Paid", "Total Return", "Usage Status", "Note"
+                "Invoice ID", "Customer ID", "Day Created", "Day Paid", "Payment Status", "Total", "Total Paid", "Usage Status", "Note"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane4.setViewportView(tblInvoices);
 
         btnViewDetails.setText(" View Details");
@@ -1178,8 +1195,7 @@ public class DashboardStaff extends javax.swing.JFrame {
                 invoice.setNgayThanhToan(rs.getString("NGAYTHANHTOAN"));
                 invoice.setTinhTrangTT(rs.getString("TINHTRANGTHANHTOAN"));
                 invoice.setTongTien(rs.getInt("TONGTIEN"));
-                invoice.setSoTienKhachTra(rs.getInt("SOTIENKHACHTRA"));
-                invoice.setTienThoi(rs.getInt("TIENTHOI"));
+                invoice.setSoTienKhachTra(rs.getInt("SOTIENKHACHTRA"));            
                 invoice.setTinhTrangSD(rs.getString("TINHTRANGSUDUNG"));
                 invoice.setNote(rs.getString("NOTE"));
                 invoices.add(invoice);
@@ -1202,7 +1218,6 @@ public class DashboardStaff extends javax.swing.JFrame {
                 in.getTinhTrangTT(),
                 in.getTongTien(),
                 in.getSoTienKhachTra(),
-                in.getTienThoi(),
                 in.getTinhTrangSD(),
                 in.getNote()
             });
@@ -1216,7 +1231,7 @@ public class DashboardStaff extends javax.swing.JFrame {
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
                 // Ví dụ: nếu cột "Service ID" là TIxxx thì tô màu vàng
-                Object cellValue = table.getValueAt(row, 10);
+                Object cellValue = table.getValueAt(row, 7);
                 String status = (cellValue != null) ? cellValue.toString() : "";
                 if (status.equals("Vô hiệu hoá")) {
                     c.setBackground(new Color(255, 205, 224));
