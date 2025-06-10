@@ -280,22 +280,9 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
 
         
 
-        if (dayStarted == null || dayEnded == null){
-            JOptionPane.showMessageDialog(this, "Please enter checkin and checkout date!");
-        }
-        else
-        if (dayStarted.compareTo(dayEnded) >= 0){
-            JOptionPane.showMessageDialog(this, "The checkin date must before the checkout date!");
-        }
-        else
-        if((!txtRoomID.getText().isEmpty() && !txtServiceID.getText().isEmpty()) || (txtRoomID.getText().isEmpty() && txtServiceID.getText().isEmpty()))
-        {
-            JOptionPane.showMessageDialog(this, "Please choose 1 of 2 (RoomID, ServiceID) to enter!");
-        }
-        else{
-            String paymentStatus = (String) cbxPaid.getSelectedItem();
+        
 
-            try {
+           try {
                 Class.forName(connect.driver);
                 Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
 

@@ -64,11 +64,11 @@ public class Invoice {
         this.ngayThanhToan = ngayThanhToan;
     }
 
-    public String getTinhtrangTT() {
+    public String getTinhTrangTT() {
         return tinhtrangTT;
     }
 
-    public void setTinhtrangTT(String tinhtrangTT) {
+    public void setTinhTrangTT(String tinhtrangTT) {
         this.tinhtrangTT = tinhtrangTT;
     }
 
@@ -96,11 +96,11 @@ public class Invoice {
         this.tienThoi = tienThoi;
     }
 
-    public String getTinhtrangSD() {
+    public String getTinhTrangSD() {
         return tinhtrangSD;
     }
 
-    public void setTinhtrangSD(String tinhtrangSD) {
+    public void setTinhTrangSD(String tinhtrangSD) {
         this.tinhtrangSD = tinhtrangSD;
     }
 

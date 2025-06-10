@@ -77,6 +77,11 @@ public class ClientOrderForm extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
 
         cbxService.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MaDV1 - TenDV1", "MaDV2 - TenDV2", "MaDV3 - TenDV3", "MaDV4 - TenDV4" }));
         cbxService.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -222,6 +227,10 @@ public class ClientOrderForm extends javax.swing.JFrame {
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
 
     /**
      * @param args the command line arguments
