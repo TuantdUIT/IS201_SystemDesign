@@ -237,6 +237,7 @@ public class ClientOrderForm extends javax.swing.JFrame {
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
         // TODO add your handling code here:
+        System.out.println(cbxRoom.getSelectedItem().toString());
         if(dateStarted.getDate() == null || dateEnded.getDate() == null)
         {
             JOptionPane.showMessageDialog(this, "Please enter start and end date!");
@@ -260,7 +261,7 @@ public class ClientOrderForm extends javax.swing.JFrame {
                 con = DriverManager.getConnection(connect.url, connect.username, connect.password);
                 
                 //Them 1 hoa don moi
-                String sql = "INSERT INTO PHIEUDAT (MAKH, SLSD, SONGUOIDUNG, NGAYBD, NGAYKT, YEUCAU) VALUES (?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO PHIEUDAT (MAKH, SLSD, SONGUOIDUNG, NGAYBD, NGAYKT, YEUCAU, TYPE_OF_SERVICE, NAME_OF_SERVICE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement pst = con.prepareStatement(sql);
                 
                 
@@ -288,7 +289,8 @@ public class ClientOrderForm extends javax.swing.JFrame {
                 pst.setDate(5, ngayKTsql);
                 
                 pst.setString(6, txtRequest.getText());
-                
+                pst.setString(7, "R");
+                pst.setString(8, cbxRoom.getSelectedItem().toString());
                 pst.executeUpdate();
                 
                 JOptionPane.showMessageDialog(null, "Request sent!");

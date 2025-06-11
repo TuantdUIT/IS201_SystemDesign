@@ -4,6 +4,7 @@
  */
 package hotelmanagement.dashboard_main;
 
+import hotelmanagement.entity.Customer;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

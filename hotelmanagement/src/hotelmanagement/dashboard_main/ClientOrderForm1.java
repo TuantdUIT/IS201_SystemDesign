@@ -249,7 +249,7 @@ public class ClientOrderForm1 extends javax.swing.JFrame {
                 con = DriverManager.getConnection(connect.url, connect.username, connect.password);
                 
                 //Them 1 hoa don moi
-                String sql = "INSERT INTO PHIEUDAT (MAKH, SLSD, SONGUOIDUNG, NGAYBD, NGAYKT, YEUCAU) VALUES (?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO PHIEUDAT (MAKH, SLSD, SONGUOIDUNG, NGAYBD, NGAYKT, YEUCAU, TYPE_OF_SERVICE, NAME_OF_SERVICE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement pst = con.prepareStatement(sql);
                 
                 
@@ -273,7 +273,8 @@ public class ClientOrderForm1 extends javax.swing.JFrame {
                 pst.setDate(5, ngayKTsql);
                 
                 pst.setString(6, txtRequest.getText());
-                
+                pst.setString(7, "S");
+                pst.setString(8, cbxService.getSelectedItem().toString());
                 pst.executeUpdate();
                 
                 JOptionPane.showMessageDialog(null, "Request sent!");

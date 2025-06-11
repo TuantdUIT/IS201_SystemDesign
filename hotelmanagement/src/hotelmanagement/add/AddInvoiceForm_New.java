@@ -8,21 +8,59 @@ import hotelmanagement.entity.dba_connection;
 import hotelmanagement.dashboard_main.DashboardStaff;
 import javax.swing.*;
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class AddInvoiceForm_New extends javax.swing.JFrame {
 
     /**
      * Creates new form AddInvoiceForm_New
      */
-    private DashboardStaff parent;
+    private String makh_request; // Mã khách hàng đã gửi yêu cầu
+    private DashboardStaff parent; // màn hình nhân viên
+    private LocalDate today = LocalDate.now(); // biến ngày hôm nay
     public AddInvoiceForm_New() {
         initComponents();
         setLocationRelativeTo(null);
     }
-    public AddInvoiceForm_New(DashboardStaff parent, String MaDVP){
+    public AddInvoiceForm_New(String makh_quest){
         initComponents();
-        setLocationRelativeTo(null);
-        this.parent=parent;
-        txtSDT.setText(MaDVP);
+        setLocationRelativeTo(null);       
+        makh_request = makh_quest;
+        
+        dba_connection connect = new dba_connection(); 
+        String sql_dt = "select sdt from khachhang where makh = '" + makh_request + "'";
+        try {
+            Class.forName(connect.driver);
+            Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
+            PreparedStatement pst = null;
+            pst = con.prepareStatement(sql_dt);
+            ResultSet rs_dt = pst.executeQuery();
+            if(rs_dt.next()){
+                txtSDT.setText(rs_dt.getString(1));
+            }
+            rs_dt.close();
+            pst.close();
+            
+            txtDaycreated.setText(today.toString());
+            txtDaypaid.setText("");
+            txtTotal.setText("0");
+            txtPaid.setText("0");
+            
+            
+            // Vô hiệu hoá các ô
+            txtSDT.setEnabled(false);
+            txtDaycreated.setEnabled(false);
+            txtDaypaid.setEnabled(false);
+            cbxPaid.setEnabled(false);
+            txtTotal.setEnabled(false);
+            txtPaid.setEnabled(false);
+            cbxUsage.setEnabled(false);           
+            
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AddInvoiceForm_New.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
@@ -41,19 +79,17 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         cbxPaid = new javax.swing.JComboBox<>();
-        dpCreate = new com.github.lgooddatepicker.components.DatePicker();
-        dpPaid = new com.github.lgooddatepicker.components.DatePicker();
         jLabel4 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtPaid = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txtReturn = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         cbxUsage = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         txtNote = new javax.swing.JTextField();
         jSeparator3 = new javax.swing.JSeparator();
+        txtDaycreated = new javax.swing.JTextField();
+        txtDaypaid = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnCreate = new javax.swing.JButton();
@@ -83,9 +119,6 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
         jLabel5.setText("Total paid");
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jLabel6.setText("Total return");
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
         jLabel13.setText("Usage status");
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -112,21 +145,22 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
                     .addComponent(jLabel12)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel6)
                     .addComponent(jLabel13)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(txtPaid)
-                    .addComponent(cbxPaid, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dpCreate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
-                    .addComponent(dpPaid, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbxPaid, javax.swing.GroupLayout.Alignment.LEADING, 0, 267, Short.MAX_VALUE)
                     .addComponent(txtTotal, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtReturn)
                     .addComponent(cbxUsage, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtNote)
-                    .addComponent(txtSDT, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(txtSDT, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtDaycreated)
+                    .addComponent(txtDaypaid))
                 .addContainerGap(61, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jSeparator3)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,11 +172,11 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(dpCreate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDaycreated, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(dpPaid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDaypaid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
@@ -155,10 +189,6 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPaid, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addGap(12, 12, 12)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(txtReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbxUsage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -169,7 +199,8 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(txtNote))
-                .addContainerGap())
+                .addGap(25, 25, 25)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel1.setText("Add new Invoice");
@@ -219,20 +250,20 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jSeparator3)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,11 +280,9 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16))))
+                        .addGap(31, 31, 31))))
         );
 
         pack();
@@ -265,68 +294,35 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
-//        dba_connection connect = new dba_connection();
-//        // Lấy dữ liệu từ các trường văn bản (JTextField) bằng getText()
-//        String phoneNumber = txtSDT.getText();
-//        String dayCreated = dpCreate.getText();
-//        String dayPaid = dpPaid.getText();
-//        String total = txtTotal.getText();
-//        String totalPaid = txtPaid.getText();
-//        String totalReturn = txtReturn.getText();
-//        String note = txtNote.getText();
-//
-//        // Lấy dữ liệu từ các dropdown (JComboBox) bằng getSelectedItem()
-//        String paymentStatus = (String) cbxPaid.getSelectedItem();
-//        String usageStatus = (String) cbxUsage.getSelectedItem();
-//
-//        
-//
-//        
-//
-//           try {
-//                Class.forName(connect.driver);
-//                Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
-//
-//                // Chèn thông tin vào CSDL
-//                String sql = "INSERT INTO HOADON (MAKH, MADVP, MADVTI, NGUOIXACNHAN, " +
-//                " NGAYBD, NGAYKT, NGAYTHANHTOAN, TINHTRANGTT) " +
-//                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-//
-//                //java.util.Date dayCreated = sdf.parse(ftxtDayCreated.getText());
-//
-//                //java.sql.Date sqlDate1 = new java.sql.Date(dayCreated.getTime());
-//                java.sql.Date sqlDate2 = dayStarted != null ? Date.valueOf(dayStarted) : null;
-//                java.sql.Date sqlDate3 = dayEnded != null ? Date.valueOf(dayEnded) : null;
-//                java.sql.Date sqlDate4 = dayPaid != null ? Date.valueOf(dayPaid) : null;
-//                PreparedStatement pst = con.prepareStatement(sql);
-//                pst.setString(1, customerID); // MAKH
-//                pst.setString(2, roomID);     // MADVP
-//                pst.setString(3, serviceID);  // MADVTI
-//
-//                pst.setString(4, staffID);    // NGUOIXACNHAN
-//
-//                //pst.setDate(6, sqlDate1);
-//                pst.setDate(5, sqlDate2);
-//                pst.setDate(6, sqlDate3);
-//                pst.setDate(7, sqlDate4);
-//
-//                //pst.setInt(9, total);        // TONGTIEN
-//                pst.setString(8, paymentStatus); // TINHTRANGTT
-//
-//                pst.executeUpdate();
-//                JOptionPane.showMessageDialog(this, "Add invoice sucessfully!");
-//
-//            } catch (SQLException | ClassNotFoundException ex){
-//                JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
-//            }catch (DateTimeParseException e){
-//                JOptionPane.showMessageDialog(this, "Invalid date");
-//            }
-//        }
-//        //int total = Integer.parseInt(txtTotal.getText());
+        dba_connection connect = new dba_connection(); 
+        String sql = "insert into hoadon (makh, ngaythanhtoan, tinhtrangthanhtoan, tongtien, sotienkhachtra, tinhtrangsudung, note)"
+                + "values(?, ?, ?, ?, ?, ?, ?)";
+        try {
+            Class.forName(connect.driver);
+            Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
+            PreparedStatement pst = null;
+            
+            pst = con.prepareStatement(sql);
+            pst.setString(1, makh_request);
+            pst.setString(2, txtDaypaid.getText());
+            pst.setString(3, cbxPaid.getSelectedItem().toString());
+            pst.setString(4, txtTotal.getText());
+            pst.setString(5, txtPaid.getText());
+            pst.setString(6, cbxUsage.getSelectedItem().toString());
+            pst.setString(7, txtNote.getText());
+            
+            pst.executeQuery();
+            JOptionPane.showMessageDialog(this, "Add successfully!");
+            this.dispose();
+            new CTHD_Form(makh_request).setVisible(true);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AddInvoiceForm_New.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        parent.autoReloadInvoice();
+//        parent.autoReloadInvoice();
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
@@ -370,8 +366,6 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
     private javax.swing.JButton btnCreate;
     private javax.swing.JComboBox<String> cbxPaid;
     private javax.swing.JComboBox<String> cbxUsage;
-    private com.github.lgooddatepicker.components.DatePicker dpCreate;
-    private com.github.lgooddatepicker.components.DatePicker dpPaid;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -379,7 +373,6 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
@@ -387,9 +380,10 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JTextField txtDaycreated;
+    private javax.swing.JTextField txtDaypaid;
     private javax.swing.JTextField txtNote;
     private javax.swing.JTextField txtPaid;
-    private javax.swing.JTextField txtReturn;
     private javax.swing.JTextField txtSDT;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables

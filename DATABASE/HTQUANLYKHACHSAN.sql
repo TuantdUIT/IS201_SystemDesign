@@ -246,6 +246,14 @@ BEGIN
 END;
 /
 
+-- TRIGGER HỆ THỐNG TỰ TẠO BIẾN NGAYTAO TRONG HOÁ ĐƠN
+CREATE OR REPLACE TRIGGER AUTO_NGAYTAO
+BEFORE INSERT ON HOADON
+FOR EACH ROW
+BEGIN
+    :NEW.NGAYTAO := SYSDATE;
+END;
+/
 --DVPHONG
 INSERT INTO DVPHONG (LOAIPHONG, MOTA, DONGIA, TINHTRANG)
 VALUES ('Phòng đơn', 'Phòng đơn có giường 1m6, điều hòa', 50000, N'Occupied');
@@ -382,7 +390,11 @@ INSERT INTO CTHD (MAHD, LOAIDV, MADV, NGAYBD, NGAYKT)
 VALUES ('HD001', 'DVTI', 'TI001', DATE '2025-06-01', DATE '2025-06-03');
 /
 
+-- Tạo thêm biến Type of Service trong Phiếu Đặt 
+alter table phieudat add TYPE_OF_SERVICE varchar2(1);
+/
 
-
-
+-- Tạo thêm tên service trong Phiếu Đặt
+alter table phieudat add NAME_OF_SERVICE varchar2(100);
+COMMIT;
 

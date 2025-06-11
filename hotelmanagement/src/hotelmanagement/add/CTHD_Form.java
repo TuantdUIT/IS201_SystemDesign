@@ -4,7 +4,16 @@
  */
 package hotelmanagement.add;
 
+import hotelmanagement.entity.Customer;
+import hotelmanagement.entity.dba_connection;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,10 +24,79 @@ public class CTHD_Form extends javax.swing.JFrame {
     /**
      * Creates new form CTHD_Form
      */
+
     public CTHD_Form() {
         initComponents();
+
+    }
+    
+    public CTHD_Form(String makh, String ngaybd, String ngaykt){
+        initComponents();
+        autoReloadCTHD(makh, ngaybd, ngaykt);
+        autoReloadComboBox_Service();
+    }
+    
+    public void autoReloadCTHD(String makh, String ngaybd, String ngaykt){
+        dba_connection connect = new dba_connection();
+        String sql = "select mahd from hoadon where makh = '" + makh + "'";
+        
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        
+        try {
+            java.util.Date bd = inputFormat.parse(ngaybd);
+            java.util.Date kt = inputFormat.parse(ngaykt);
+            
+            SimpleDateFormat outputFormat = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+            String out_bd = outputFormat.format(bd);
+            String out_kt = outputFormat.format(kt);
+            
+            dpStarted.setText(out_bd);
+            dpEnded.setText(out_kt);
+            if(Customer.type_customer_request.equalsIgnoreCase("R")){
+                txtServicetype.setText("Room");
+                txtServicetype.setEnabled(false);
+            }else if(Customer.type_customer_request.equalsIgnoreCase("S")){
+                txtServicetype.setText("Service");
+                txtServicetype.setEnabled(false);
+            }
+            Class.forName(connect.driver);
+            Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                txtInvoiceID.setText(rs.getString("mahd"));
+                txtInvoiceID.setEnabled(false);
+            }
+        } catch (ClassNotFoundException | SQLException  ex) {
+            Logger.getLogger(CTHD_Form.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(CTHD_Form.class.getName()).log(Level.SEVERE, null, ex);
+        }       
     }
 
+    public void autoReloadComboBox_Service(){
+        dba_connection connect = new dba_connection();
+        String type = "";
+        if(txtServicetype.getText().equals("Room")){
+            type = "select madvp from dvphong where loaiphong = '" + Customer.name_customer_request.trim() + "'";
+        }else if (txtServicetype.getText().equals("Service")){
+            type = "select madvti from dvtienich where tendvti = '" + Customer.name_customer_request.trim() + "'";
+        }
+        System.out.println(type);
+        try {
+            Class.forName(connect.driver);
+            Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
+            PreparedStatement pst = con.prepareStatement(type);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                cbxService.addItem(rs.getString(1));
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(CTHD_Form.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,7 +111,6 @@ public class CTHD_Form extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        cbxType = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         cbxService = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
@@ -41,6 +118,7 @@ public class CTHD_Form extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         dpEnded = new com.github.lgooddatepicker.components.DatePicker();
         txtInvoiceID = new javax.swing.JTextField();
+        txtServicetype = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
         btnCreate = new javax.swing.JButton();
@@ -57,13 +135,9 @@ public class CTHD_Form extends javax.swing.JFrame {
         jLabel3.setText("Service type");
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        cbxType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Room", "Service" }));
-        cbxType.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
         jLabel4.setText("Service ID");
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        cbxService.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxService.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel5.setText("Day Started");
@@ -87,10 +161,10 @@ public class CTHD_Form extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dpEnded, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
-                    .addComponent(cbxType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cbxService, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(dpStarted, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtInvoiceID))
+                    .addComponent(txtInvoiceID)
+                    .addComponent(txtServicetype))
                 .addGap(33, 33, 33))
         );
         jPanel1Layout.setVerticalGroup(
@@ -102,8 +176,8 @@ public class CTHD_Form extends javax.swing.JFrame {
                     .addComponent(txtInvoiceID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbxType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(txtServicetype, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxService, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,10 +270,11 @@ public class CTHD_Form extends javax.swing.JFrame {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -207,13 +282,37 @@ public class CTHD_Form extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
+    public void autoReloadCombobox_Service(){
+        
+    }
+    
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
-        String invoice = txtInvoiceID.getText();
-        String type = (String)cbxType.getSelectedItem();
-        String service = (String)cbxService.getSelectedItem();
-        LocalDate dateStarted = dpStarted.getDate();
-        LocalDate dateEnded = dpEnded.getDate();
+        dba_connection connect = new dba_connection();
+        String sql = "insert into cthd(mahd, loaidv, madv, ngaybd, ngaykt) values(?, ?, ?, ?, ?)";
+        
+        try {
+            Class.forName(connect.driver);
+            Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, txtInvoiceID.getText());
+            if(txtServicetype.getText().equals("Room")){
+                pst.setString(2, "DVP");
+            }else if(txtServicetype.getText().equals("Service")){
+                pst.setString(2, "DVTI");
+            }
+            pst.setString(3, cbxService.getSelectedItem().toString().trim());
+            pst.setString(4, dpStarted.getText());
+            pst.setString(5, dpEnded.getText());
+            
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Create successfully!");
+            this.dispose();
+            
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(CTHD_Form.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_btnCreateActionPerformed
 
     /**
@@ -255,7 +354,6 @@ public class CTHD_Form extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCreate;
     private javax.swing.JComboBox<String> cbxService;
-    private javax.swing.JComboBox<String> cbxType;
     private com.github.lgooddatepicker.components.DatePicker dpEnded;
     private com.github.lgooddatepicker.components.DatePicker dpStarted;
     private javax.swing.JLabel jLabel1;
@@ -269,5 +367,6 @@ public class CTHD_Form extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField txtInvoiceID;
+    private javax.swing.JTextField txtServicetype;
     // End of variables declaration//GEN-END:variables
 }

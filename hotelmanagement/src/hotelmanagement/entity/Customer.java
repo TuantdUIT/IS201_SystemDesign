@@ -22,7 +22,8 @@ public class Customer {
     private String gender;        // GIOITINH
     private String address;       // DIACHI
     private String email;         // EMAIL
-
+    public static String type_customer_request;
+    public static String name_customer_request;
     public Customer(){
         
     }
