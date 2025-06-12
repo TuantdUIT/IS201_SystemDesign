@@ -349,8 +349,8 @@ public class DashboardStaff extends javax.swing.JFrame {
                 .addGap(46, 46, 46)
                 .addComponent(jLabel9)
                 .addGap(32, 32, 32)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(140, Short.MAX_VALUE))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         CardLayout_Management.add(ConfirmRequest, "card7");
@@ -1579,7 +1579,7 @@ public class DashboardStaff extends javax.swing.JFrame {
         int row = Request_tab.rowAtPoint(evt.getPoint());
         if (row >= 0) {
             JPopupMenu menu = new JPopupMenu();
-            JMenuItem tao_cthd = new JMenuItem("Tạo CTHD");
+            JMenuItem tao_cthd = new JMenuItem("Add details");
             JMenuItem xoa_pd = new JMenuItem("Delete Request");
             menu.add(tao_cthd);
             menu.add(xoa_pd);
@@ -1590,7 +1590,10 @@ public class DashboardStaff extends javax.swing.JFrame {
                 String makh = Request_tab.getValueAt(row_selected, 1).toString();
                 String ngaybd = Request_tab.getValueAt(row_selected, 6).toString();
                 String ngaykt = Request_tab.getValueAt(row_selected, 7).toString();
-                String sql = "select mahd from hoadon where makh = '" + makh + "'"; 
+                String serviceName = Request_tab.getValueAt(row_selected, 3).toString();
+                String Amount = Request_tab.getValueAt(row_selected, 4).toString();
+                //chọn hoá đơn có tt!=Đã thanh toán và mới nhất
+                String sql = "select mahd from hoadon where makh = '" + makh + "' and TINHTRANGTHANHTOAN != 'Đã thanh toán' ORDER BY NGAYTAO DESC"; 
                 Customer.type_customer_request = Request_tab.getValueAt(row_selected, 2).toString();
                 Customer.name_customer_request = Request_tab.getValueAt(row_selected, 3).toString();
                 try {
@@ -1599,7 +1602,7 @@ public class DashboardStaff extends javax.swing.JFrame {
                     PreparedStatement pst = con.prepareStatement(sql);    
                     ResultSet rs = pst.executeQuery();
                     if(rs.next()){
-                        new CTHD_Form(makh, ngaybd, ngaykt).setVisible(true);
+                        new CTHD_Form(makh, ngaybd, ngaykt, serviceName, Amount).setVisible(true);
                     }else{
                         int yes = JOptionPane.showConfirmDialog(this, "Customer doesn't have an invoice, create a new one?", "Create", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if(yes == JOptionPane.YES_OPTION){
@@ -1609,7 +1612,28 @@ public class DashboardStaff extends javax.swing.JFrame {
                 } catch (ClassNotFoundException | SQLException ex) {
                     Logger.getLogger(DashboardStaff.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
+            });
+            
+            xoa_pd.addActionListener(e -> {
+                
+                    dba_connection connect = new dba_connection();
+                    int row_selected = Request_tab.getSelectedRow();
+                    String mapd = Request_tab.getValueAt(row_selected, 0).toString();
+                    String sql = "delete from PHIEUDAT where MAPD = ?";
+                    int yes = JOptionPane.showConfirmDialog(this, "Are you sure?", "DELETE", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if(yes == JOptionPane.YES_OPTION){
+                        try { 
+                        Class.forName(connect.driver);
+                        Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
+                        PreparedStatement pst = con.prepareStatement(sql);    
+                        pst.setString(1, mapd);
+                        pst.executeUpdate();
+                        JOptionPane.showMessageDialog(null, "Delete " + mapd + " successfully!");
+                        autoReloadRequest();
+                        } catch (SQLException | ClassNotFoundException ex) {
+                        Logger.getLogger(DashboardStaff.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                 
             });
             menu.show(evt.getComponent(), evt.getX(), evt.getY());
