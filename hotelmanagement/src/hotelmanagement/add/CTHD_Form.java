@@ -16,6 +16,8 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import java.util.*;
 import hotelmanagement.entity.Service;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -27,8 +29,8 @@ public class CTHD_Form extends javax.swing.JFrame {
     /**
      * Creates new form CTHD_Form
      */
-    public int count_details;
-    public String Amount;
+    public int count_details; //Số lượng hiển thị trong CTHD form
+    public String Amount; //Số lượng khách yêu cầu
     public CTHD_Form() {
         initComponents();
     }
@@ -36,7 +38,7 @@ public class CTHD_Form extends javax.swing.JFrame {
     public CTHD_Form(String makh, String ngaybd, String ngaykt, String serviceName, String Amount){
         initComponents();
         autoReloadCTHD(makh, ngaybd, ngaykt, serviceName, Amount);
-        autoReloadComboBox_Service();
+//        autoReloadComboBox_Service();
         this.count_details = 0;
         this.Amount=Amount;
     }
@@ -57,7 +59,7 @@ public class CTHD_Form extends javax.swing.JFrame {
             String out_kt = outputFormat.format(kt);
             
             this.Amount=Amount;
-            txtServiceName.setText(serviceName);
+            txtServiceName.setText(serviceName.trim());
             dpStarted.setText(out_bd);
             dpEnded.setText(out_kt);
             if(Customer.type_customer_request.equalsIgnoreCase("R")){
@@ -82,7 +84,7 @@ public class CTHD_Form extends javax.swing.JFrame {
         }       
     }
 
-    public void autoReloadComboBox_Service(){
+//    public void autoReloadComboBox_Service(){
 //        dba_connection connect = new dba_connection();
 //        String type = "";
 //        if(txtServicetype.getText().equals("Room")){
@@ -102,7 +104,7 @@ public class CTHD_Form extends javax.swing.JFrame {
 //        } catch (ClassNotFoundException | SQLException ex) {
 //            Logger.getLogger(CTHD_Form.class.getName()).log(Level.SEVERE, null, ex);
 //        }              
-    }
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -127,7 +129,7 @@ public class CTHD_Form extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         dpEnded = new com.github.lgooddatepicker.components.DatePicker();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_dvphong = new javax.swing.JScrollPane();
         tabAvailableService = new javax.swing.JTable();
         btnSearchService = new javax.swing.JButton();
         lblServiceName = new javax.swing.JLabel();
@@ -260,7 +262,7 @@ public class CTHD_Form extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tabAvailableService);
+        tbl_dvphong.setViewportView(tabAvailableService);
 
         btnSearchService.setText("Search");
         btnSearchService.addActionListener(new java.awt.event.ActionListener() {
@@ -288,7 +290,7 @@ public class CTHD_Form extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(tbl_dvphong)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
@@ -324,7 +326,7 @@ public class CTHD_Form extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
+                .addComponent(tbl_dvphong, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -333,10 +335,10 @@ public class CTHD_Form extends javax.swing.JFrame {
         jLabel7.setText("Recent amount of created details:");
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
-        lblCount.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblCount.setForeground(new java.awt.Color(255, 0, 51));
         lblCount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCount.setText("0");
+        lblCount.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblCount.setForeground(new java.awt.Color(255, 0, 51));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -439,31 +441,7 @@ public class CTHD_Form extends javax.swing.JFrame {
             lblCount.setText(String.valueOf(count_details));
         }
         
-        
-//        dba_connection connect = new dba_connection();
-//        String sql = "insert into cthd(mahd, loaidv, madv, ngaybd, ngaykt) values(?, ?, ?, ?, ?)";
-//        
-//        try {
-//            Class.forName(connect.driver);
-//            Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
-//            PreparedStatement pst = con.prepareStatement(sql);
-//            pst.setString(1, txtInvoiceID.getText());
-//            if(txtServicetype.getText().equals("Room")){
-//                pst.setString(2, "DVP");
-//            }else if(txtServicetype.getText().equals("Service")){
-//                pst.setString(2, "DVTI");
-//            }
-//            pst.setString(3, cbxService.getSelectedItem().toString().trim());
-//            pst.setString(4, dpStarted.getText());
-//            pst.setString(5, dpEnded.getText());
-//            
-//            pst.executeUpdate();
-//            JOptionPane.showMessageDialog(this, "Create successfully!");
-//            this.dispose();
-//            
-//        } catch (ClassNotFoundException | SQLException ex) {
-//            Logger.getLogger(CTHD_Form.class.getName()).log(Level.SEVERE, null, ex);
-//        }    
+           
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void txtInvoiceIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInvoiceIDActionPerformed
@@ -473,21 +451,31 @@ public class CTHD_Form extends javax.swing.JFrame {
     {  
         ArrayList<Service> list_service = new ArrayList<>();
         //CON DANG VUONG
-        String sql = "SELECT * FROM CTHD C"
-                + " JOIN DVPHONG P ON C.MADV = P.MADVP "
-                + " NOT IN ("
-                + " SELECT C1.MADVP FROM CTHD C1 "
-                + " JOIN DVPHONG P1 ON C1.MADV = P1.MADVP "
-                + " WHERE trim(P1.LOAIPHONG) = ?"
-                + ")";
+//        String sql = "SELECT * FROM CTHD C"
+//                + " JOIN DVPHONG P ON C.MADV = P.MADVP "
+//                + " WHERE C.MADV NOT IN ("
+//                + " SELECT C1.MADV FROM CTHD C1 "
+//                + " JOIN DVPHONG P1 ON C1.MADV = P1.MADVP "
+//                + " WHERE trim(P1.LOAIPHONG) = ?"
+//                + ")";
+        String ngaybd = dpStarted.getText();
+        String ngaykt = dpEnded.getText();
+        String sql = "select * from dvphong p"
+                + " where trim(p.loaiphong) = trim(?)"
+                + " and not exists("
+                + " select 1 from cthd c"
+                + " where c.madv = p.madvp"
+                + " and not(c.ngaykt < TO_DATE(?, 'Month DD YYYY', 'NLS_DATE_LANGUAGE = English') or"
+                + " c.ngaybd > TO_DATE(?, 'Month DD YYYY', 'NLS_DATE_LANGUAGE = English')))";
         dba_connection connect = new dba_connection();
         try {
             Class.forName(connect.driver);
             Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
             PreparedStatement pst = con.prepareStatement(sql);            
             
-            pst.setString(1, txtServiceName.getText().trim());
-            
+            pst.setString(1, txtServiceName.getText());
+            pst.setString(2, ngaybd);
+            pst.setString(3, ngaykt);
             ResultSet rs = pst.executeQuery();
             list_service.clear();
             
@@ -503,13 +491,24 @@ public class CTHD_Form extends javax.swing.JFrame {
             
             for(Service s: list_service){
                 model.addRow(new Object[]{
-                s.getMaDV(),
-                s.getTenDV()
-            });
+                    s.getMaDV(),
+                    s.getTenDV()
+                });
             }
             
-        } catch (ClassNotFoundException classNotFoundException) {
-        } catch (SQLException sQLException) {
+            tabAvailableService.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int row = tabAvailableService.getSelectedRow();
+                    if (row != -1) {
+                        String service_id = tabAvailableService.getValueAt(row, 0).toString();
+                        txtServiceID.setText(service_id.trim());
+                    }
+                }
+            });
+            
+        } catch (ClassNotFoundException | SQLException classNotFoundException) {
+            
         }
     }
     private void SearchS()
@@ -544,8 +543,7 @@ public class CTHD_Form extends javax.swing.JFrame {
             });
             }
             
-        } catch (ClassNotFoundException classNotFoundException) {
-        } catch (SQLException sQLException) {
+        } catch (ClassNotFoundException | SQLException classNotFoundException) {
         }
     }
     private void btnSearchServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchServiceActionPerformed
@@ -619,10 +617,10 @@ public class CTHD_Form extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCount;
     private javax.swing.JLabel lblServiceName;
     private javax.swing.JTable tabAvailableService;
+    private javax.swing.JScrollPane tbl_dvphong;
     private javax.swing.JTextField txtInvoiceID;
     private javax.swing.JTextField txtServiceID;
     private javax.swing.JTextField txtServiceName;
