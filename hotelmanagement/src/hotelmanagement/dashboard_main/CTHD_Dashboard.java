@@ -5,15 +5,64 @@
 package hotelmanagement.dashboard_main;
 
 import hotelmanagement.add.CTHD_Form;
+import hotelmanagement.entity.CTHD;
+import hotelmanagement.entity.dba_connection;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.*;
+import javax.swing.table.DefaultTableModel;
+
 public class CTHD_Dashboard extends javax.swing.JFrame {
 
     /**
      * Creates new form CTHD_Dashboard
      */
+    public ArrayList<CTHD> list_cthd = new ArrayList<>();
+    public DefaultTableModel model = new DefaultTableModel();
     public CTHD_Dashboard() {
         initComponents();
+              
     }
 
+    public void autoReloadCTHD(){
+        list_cthd.clear();
+        String sql = "SELECT * FROM CTHD";    
+        dba_connection connect = new dba_connection();
+        
+        try {
+            Class.forName(connect.driver);
+            Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                CTHD ct = new CTHD();
+                ct.setMaCTHD(rs.getString("MACTHD"));
+                ct.setMaHD(rs.getString("MAHD"));
+                ct.setLoaiDV(rs.getString("LOAIDV"));
+                ct.setMaDV(rs.getString("MADV"));
+                ct.setNgayBD(rs.getString("NGAYBD"));
+                ct.setNgayKT(rs.getString("NGAYKT"));
+                list_cthd.add(ct);
+            }
+            model = (DefaultTableModel) tblDetails.getModel();
+            model.setRowCount(0);
+            
+            for(CTHD ct : list_cthd){
+                model.addRow(new Object[]{
+                    ct.getMaCTHD(),
+                    ct.getMaHD(),
+                    ct.getLoaiDV(),
+                    ct.getMaDV(),
+                    ct.getNgayBD(),
+                    ct.getNgayKT()
+                });
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(CTHD_Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,21 +84,29 @@ public class CTHD_Dashboard extends javax.swing.JFrame {
 
         lbTitle.setBackground(new java.awt.Color(255, 255, 51));
         lbTitle.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        lbTitle.setText("Invoice Details");
+        lbTitle.setText("DETAILS");
 
         tblDetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Invoice ID", "Customer ID", "Room/Service ID", "Day Started", "Day Ended"
+                "Detail ID", "Invoice ID", "Room/Service Name", "Room/Service ID", "Day Started", "Day Ended"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblDetails);
 
         btnBack.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -85,21 +142,22 @@ public class CTHD_Dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jSeparator1))
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jSeparator2)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 677, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lbTitle)
-                        .addGap(68, 68, 68)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(226, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 220, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jSeparator2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(310, 310, 310)
+                .addComponent(lbTitle)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,9 +166,9 @@ public class CTHD_Dashboard extends javax.swing.JFrame {
                 .addComponent(lbTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -118,10 +176,12 @@ public class CTHD_Dashboard extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     /**

@@ -7,9 +7,12 @@
         </group>
         <group>
             <file>file:/C:/Users/84352/OneDrive/Documents/NetBeansProjects/IS201_SystemDesign/hotelmanagement/src/hotelmanagement/dashboard_main/DashboardStaff.java</file>
+            <file>file:/C:/Users/84352/OneDrive/Documents/NetBeansProjects/IS201_SystemDesign/hotelmanagement/src/hotelmanagement/dashboard_main/CTHD_Dashboard.java</file>
             <file>file:/C:/Users/84352/OneDrive/Documents/NetBeansProjects/IS201_SystemDesign/hotelmanagement/src/hotelmanagement/add/CTHD_Form.java</file>
             <file>file:/C:/Users/84352/OneDrive/Documents/NetBeansProjects/IS201_SystemDesign/hotelmanagement/src/hotelmanagement/dashboard_main/OrderOptions.java</file>
             <file>file:/C:/Users/84352/OneDrive/Documents/NetBeansProjects/IS201_SystemDesign/hotelmanagement/src/hotelmanagement/entity/Customer.java</file>
+            <file>file:/C:/Users/84352/OneDrive/Documents/NetBeansProjects/IS201_SystemDesign/hotelmanagement/src/hotelmanagement/add/AddInvoiceForm_New.java</file>
+            <file>file:/C:/Users/84352/OneDrive/Documents/NetBeansProjects/IS201_SystemDesign/hotelmanagement/src/hotelmanagement/entity/CTHD.java</file>
         </group>
     </open-files>
 </project-private>

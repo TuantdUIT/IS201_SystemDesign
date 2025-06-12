@@ -86,8 +86,6 @@ public class DashboardStaff extends javax.swing.JFrame {
         tblInvoices = new javax.swing.JTable();
         jSeparator4 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
-        btnViewDetails = new javax.swing.JButton();
-        btnCreateDetails = new javax.swing.JButton();
         btnDeleteInvoices = new javax.swing.JButton();
         btnUpdateInvoices = new javax.swing.JButton();
         CardPayCheckout = new javax.swing.JPanel();
@@ -282,7 +280,7 @@ public class DashboardStaff extends javax.swing.JFrame {
         CardLayout_Management.setLayout(new java.awt.CardLayout());
 
         jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        jLabel9.setText("Request ");
+        jLabel9.setText("REQUEST LIST");
 
         Request_tab.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -338,20 +336,19 @@ public class DashboardStaff extends javax.swing.JFrame {
             ConfirmRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ConfirmRequestLayout.createSequentialGroup()
                 .addContainerGap(34, Short.MAX_VALUE)
-                .addGroup(ConfirmRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ConfirmRequestLayout.createSequentialGroup()
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 874, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ConfirmRequestLayout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(400, 400, 400))))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 874, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
+            .addGroup(ConfirmRequestLayout.createSequentialGroup()
+                .addGap(336, 336, 336)
+                .addComponent(jLabel9)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ConfirmRequestLayout.setVerticalGroup(
             ConfirmRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ConfirmRequestLayout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(46, 46, 46)
                 .addComponent(jLabel9)
-                .addGap(34, 34, 34)
+                .addGap(32, 32, 32)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(140, Short.MAX_VALUE))
         );
@@ -391,21 +388,12 @@ public class DashboardStaff extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblInvoices.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblInvoicesMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tblInvoices);
-
-        btnViewDetails.setText(" View Details");
-        btnViewDetails.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewDetailsActionPerformed(evt);
-            }
-        });
-
-        btnCreateDetails.setText("Create Details");
-        btnCreateDetails.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreateDetailsActionPerformed(evt);
-            }
-        });
 
         btnDeleteInvoices.setText("Delete");
         btnDeleteInvoices.addActionListener(new java.awt.event.ActionListener() {
@@ -426,23 +414,17 @@ public class DashboardStaff extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(btnCreateDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnViewDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnDeleteInvoices, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnUpdateInvoices, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCreateDetails)
-                    .addComponent(btnViewDetails)
                     .addComponent(btnDeleteInvoices)
                     .addComponent(btnUpdateInvoices))
                 .addGap(15, 15, 15))
@@ -463,12 +445,12 @@ public class DashboardStaff extends javax.swing.JFrame {
                         .addGap(0, 8, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(InvoicesLayout.createSequentialGroup()
+                .addGap(287, 287, 287)
+                .addComponent(jLabel7)
+                .addContainerGap(298, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, InvoicesLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(InvoicesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(InvoicesLayout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addComponent(jLabel7)))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         InvoicesLayout.setVerticalGroup(
@@ -484,7 +466,7 @@ public class DashboardStaff extends javax.swing.JFrame {
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         CardLayout_Management.add(Invoices, "card7");
@@ -1060,7 +1042,7 @@ public class DashboardStaff extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, 665, Short.MAX_VALUE)
+            .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
         );
 
         pack();
@@ -1598,7 +1580,9 @@ public class DashboardStaff extends javax.swing.JFrame {
         if (row >= 0) {
             JPopupMenu menu = new JPopupMenu();
             JMenuItem tao_cthd = new JMenuItem("Tạo CTHD");
+            JMenuItem xoa_pd = new JMenuItem("Delete Request");
             menu.add(tao_cthd);
+            menu.add(xoa_pd);
             
             tao_cthd.addActionListener(e ->{
                 dba_connection connect = new dba_connection();
@@ -1632,17 +1616,25 @@ public class DashboardStaff extends javax.swing.JFrame {
         }       
     }//GEN-LAST:event_Request_tabMouseClicked
 
-    private void btnCreateDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateDetailsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCreateDetailsActionPerformed
-
-    private void btnViewDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewDetailsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnViewDetailsActionPerformed
-
     private void btnDeleteInvoicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteInvoicesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDeleteInvoicesActionPerformed
+
+    private void tblInvoicesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInvoicesMouseClicked
+        // TODO add your handling code here:
+        int row = tblInvoices.rowAtPoint(evt.getPoint());
+        if (row >= 0) {
+            JPopupMenu menu = new JPopupMenu();
+            JMenuItem show_cthd = new JMenuItem("Show details");
+            menu.add(show_cthd);
+            
+            show_cthd.addActionListener(e ->{
+                CTHD_Dashboard frame = new CTHD_Dashboard();
+                frame.setVisible(true);
+            });
+            menu.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_tblInvoicesMouseClicked
 
     private void autoReloadCustomer(){
         Customer c = new Customer();
@@ -1743,7 +1735,6 @@ public class DashboardStaff extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnConfirm;
     private javax.swing.JButton btnCreate;
-    private javax.swing.JButton btnCreateDetails;
     private javax.swing.JButton btnCustomerManagement;
     private javax.swing.JButton btnDeleteInvoices;
     private javax.swing.JButton btnDeleteRoom;
@@ -1759,7 +1750,6 @@ public class DashboardStaff extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdateInvoices;
     private javax.swing.JButton btnUpdateRoom;
     private javax.swing.JButton btnUpdateService;
-    private javax.swing.JButton btnViewDetails;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

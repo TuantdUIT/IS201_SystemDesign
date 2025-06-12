@@ -314,7 +314,7 @@ public class AddInvoiceForm_New extends javax.swing.JFrame {
             pst.executeQuery();
             JOptionPane.showMessageDialog(this, "Add successfully!");
             this.dispose();
-            new CTHD_Form(makh_request).setVisible(true);
+//            new CTHD_Form(makh_request).setVisible(true);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(AddInvoiceForm_New.class.getName()).log(Level.SEVERE, null, ex);
         }
