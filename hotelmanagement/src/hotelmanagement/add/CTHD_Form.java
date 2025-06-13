@@ -4,6 +4,7 @@
  */
 package hotelmanagement.add;
 
+import hotelmanagement.dashboard_main.DashboardStaff;
 import hotelmanagement.entity.Customer;
 import hotelmanagement.entity.dba_connection;
 import java.time.LocalDate;
@@ -16,31 +17,55 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import java.util.*;
 import hotelmanagement.entity.Service;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author dell
  */
+// Class service type and name in order to colour column done.
+class Double{
+    String type;
+    String name;
+
+    public Double() {
+    }
+
+    public Double(String type, String name) {
+        this.type = type;
+        this.name = name;
+    }
+    
+}
+
 public class CTHD_Form extends javax.swing.JFrame {
     public DefaultTableModel model = new DefaultTableModel();
     /**
      * Creates new form CTHD_Form
      */
+    private DashboardStaff parent;
     public int count_details; //Số lượng hiển thị trong CTHD form
     public String Amount; //Số lượng khách yêu cầu
+    private String makh;
     public CTHD_Form() {
         initComponents();
     }
     
-    public CTHD_Form(String makh, String ngaybd, String ngaykt, String serviceName, String Amount){
+    public CTHD_Form(DashboardStaff parent, String makh, String ngaybd, String ngaykt, String serviceName, String Amount){
         initComponents();
         autoReloadCTHD(makh, ngaybd, ngaykt, serviceName, Amount);
+        this.makh = makh;
 //        autoReloadComboBox_Service();
         this.count_details = 0;
         this.Amount=Amount;
+        this.parent = parent;
     }
     
     public void autoReloadCTHD(String makh, String ngaybd, String ngaykt, String serviceName, String Amount){
@@ -84,27 +109,6 @@ public class CTHD_Form extends javax.swing.JFrame {
         }       
     }
 
-//    public void autoReloadComboBox_Service(){
-//        dba_connection connect = new dba_connection();
-//        String type = "";
-//        if(txtServicetype.getText().equals("Room")){
-//            type = "select madvp from dvphong where loaiphong = '" + Customer.name_customer_request.trim() + "'";
-//        }else if (txtServicetype.getText().equals("Service")){
-//            type = "select madvti from dvtienich where tendvti = '" + Customer.name_customer_request.trim() + "'";
-//        }
-//
-//        try {
-//            Class.forName(connect.driver);
-//            Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
-//            PreparedStatement pst = con.prepareStatement(type);
-//            ResultSet rs = pst.executeQuery();
-//            while(rs.next()){
-//                cbxService.addItem(rs.getString(1));
-//            }
-//        } catch (ClassNotFoundException | SQLException ex) {
-//            Logger.getLogger(CTHD_Form.class.getName()).log(Level.SEVERE, null, ex);
-//        }              
-//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -409,14 +413,98 @@ public class CTHD_Form extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
+        //Nếu lỡ back ra trong lúc đang tạo thì dòng được chọn đó sẽ hiện màu đỏ và amount bằng số lượng phòng yêu cầu còn lại
+        int cnt = Integer.parseInt(Amount);
+//        count_details -= cnt;
+        String type = txtServicetype.getText().equals("Room")?"R":"S";
+        String name = txtServiceName.getText();
+        
+        Double d = new Double(type, name);
+        if(type.equals("S"))this.dispose();
+//        String sql = "";
+//        dba_connection connect = new dba_connection();
+//        if(type.equalsIgnoreCase("Roonm")){
+//            sql = "update phieudat "
+//                    + "set slsd = ? "
+//                    + "where trim(makh) = trim(?) "
+//                    + "and trim(type_of_service) = trim(?) "
+//                    + "and trim(name_of_service) = trim(?)";
+//        }
+//        try {
+//            Class.forName(connect.driver);
+//            Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
+//            PreparedStatement pst = con.prepareStatement(sql);
+//            pst.setInt(1, count_details);
+//            pst.setString(2, type);
+//            pst.setString(3, name);
+//            pst.executeUpdate();
+//            
+//            
+//            
+//        } catch (ClassNotFoundException | SQLException ex) {
+//            Logger.getLogger(CTHD_Form.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        
+        if(cnt > count_details){
+            int yes = JOptionPane.showConfirmDialog(this, "The required number of rooms has not been fully booked. Are you want to exit?", "Exit",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if(yes == JOptionPane.YES_OPTION){                
+//                JTable table = parent.getTabRequest();
+//
+//                table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+//                    @Override
+//                    public Component getTableCellRendererComponent(JTable table, Object value,
+//                            boolean isSelected, boolean hasFocus, int row, int column) {
+//
+//                        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+//
+//                        DefaultTableModel model = (DefaultTableModel) table.getModel();
+//                        String t = model.getValueAt(row, 2).toString();
+//                        String n = model.getValueAt(row, 3).toString();
+//
+//                        if (d.type.trim().equalsIgnoreCase(t.trim()) && d.name.trim().equalsIgnoreCase(n.trim())) {
+//                            c.setBackground(Color.red); // light green
+//                        }
+//
+//                        return c;
+//                    }
+//                });    
+//                table.repaint();
+
+                // Delay dispose để GUI kịp update
+                new javax.swing.Timer(100, e -> this.dispose()).start();                
+            }
+        }else{
+            JTable table = parent.getTabRequest();
+
+            table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value,
+                        boolean isSelected, boolean hasFocus, int row, int column) {
+
+                    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+                    String t = model.getValueAt(row, 2).toString();
+                    String n = model.getValueAt(row, 3).toString();
+
+                    if (d.type.trim().equalsIgnoreCase(t.trim()) && d.name.trim().equalsIgnoreCase(n.trim())) {
+                        c.setBackground(new Color(144, 238, 144)); // light green
+                    }else{
+                        c.setBackground(Color.WHITE);
+                    } 
+                    return c;
+                }
+            });
+
+            table.repaint();
+
+            // Delay dispose để GUI kịp update
+            new javax.swing.Timer(100, e -> this.dispose()).start();
+        }
+        
+        
     }//GEN-LAST:event_btnBackActionPerformed
 
-    public void autoReloadCombobox_Service(){
-        
-    }
-    
     private void add_details()
     {
         return;
@@ -441,7 +529,44 @@ public class CTHD_Form extends javax.swing.JFrame {
             lblCount.setText(String.valueOf(count_details));
         }
         
-           
+        dba_connection connect = new dba_connection();
+        SimpleDateFormat inputFormat = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+        String sql = "INSERT INTO cthd(mahd, loaidv, madv, ngaybd, ngaykt) VALUES (?, ?, ?, ?, ?)";
+        String sql_delete = "delete from cthd where trim(makh) = trim(?)";
+        //Chèn dữ liệu 
+        String mahd = txtInvoiceID.getText();
+        String madv = txtServiceID.getText();
+        String type = txtServicetype.getText();
+        String loaidv = type.equalsIgnoreCase("Room")? "DVP" : "DVTI";
+//        System.out.println(type);
+
+        try {
+            java.util.Date bd = inputFormat.parse(dpStarted.getText());
+            java.util.Date kt = inputFormat.parse(dpEnded.getText());
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            java.sql.Date ngaybd = new java.sql.Date(bd.getTime());
+            java.sql.Date ngaykt = new java.sql.Date(kt.getTime());
+            
+            
+            Class.forName(connect.driver);
+            Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setString(1, mahd);
+            pst.setString(2, loaidv);
+            pst.setString(3, madv);
+            pst.setDate(4, ngaybd);
+            pst.setDate(5, ngaykt);
+            
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Add successfully");
+//            this.dispose();
+    
+            
+
+        } catch (ClassNotFoundException | SQLException | ParseException ex) {
+            Logger.getLogger(CTHD_Form.class.getName()).log(Level.SEVERE, null, ex);
+        }              
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void txtInvoiceIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInvoiceIDActionPerformed
@@ -450,66 +575,63 @@ public class CTHD_Form extends javax.swing.JFrame {
     private void SearchR()
     {  
         ArrayList<Service> list_service = new ArrayList<>();
-        //CON DANG VUONG
-//        String sql = "SELECT * FROM CTHD C"
-//                + " JOIN DVPHONG P ON C.MADV = P.MADVP "
-//                + " WHERE C.MADV NOT IN ("
-//                + " SELECT C1.MADV FROM CTHD C1 "
-//                + " JOIN DVPHONG P1 ON C1.MADV = P1.MADVP "
-//                + " WHERE trim(P1.LOAIPHONG) = ?"
-//                + ")";
         String ngaybd = dpStarted.getText();
         String ngaykt = dpEnded.getText();
-        String sql = "select * from dvphong p"
-                + " where trim(p.loaiphong) = trim(?)"
-                + " and not exists("
-                + " select 1 from cthd c"
-                + " where c.madv = p.madvp"
-                + " and not(c.ngaykt < TO_DATE(?, 'Month DD YYYY', 'NLS_DATE_LANGUAGE = English') or"
-                + " c.ngaybd > TO_DATE(?, 'Month DD YYYY', 'NLS_DATE_LANGUAGE = English')))";
-        dba_connection connect = new dba_connection();
-        try {
-            Class.forName(connect.driver);
-            Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
-            PreparedStatement pst = con.prepareStatement(sql);            
-            
-            pst.setString(1, txtServiceName.getText());
-            pst.setString(2, ngaybd);
-            pst.setString(3, ngaykt);
-            ResultSet rs = pst.executeQuery();
-            list_service.clear();
-            
-            while(rs.next()){
-                Service s = new Service();
-                s.setMaDV(rs.getString("MADVP"));
-                s.setTenDV(rs.getString("LOAIPHONG"));
-                list_service.add(s);
-            }
-            
-            model =  (DefaultTableModel) tabAvailableService.getModel();
-            model.setRowCount(0); 
-            
-            for(Service s: list_service){
-                model.addRow(new Object[]{
-                    s.getMaDV(),
-                    s.getTenDV()
-                });
-            }
-            
-            tabAvailableService.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    int row = tabAvailableService.getSelectedRow();
-                    if (row != -1) {
-                        String service_id = tabAvailableService.getValueAt(row, 0).toString();
-                        txtServiceID.setText(service_id.trim());
-                    }
+        if(dpStarted.getDate().compareTo(dpEnded.getDate())>=0) {
+            JOptionPane.showMessageDialog(this, "The start date must before the end date!");
+        }else{
+            String sql = "select * from dvphong p"
+                    + " where trim(p.loaiphong) = trim(?)"
+                    + " and not exists("
+                    + " select 1 from cthd c"
+                    + " where c.madv = p.madvp"
+                    + " and not(c.ngaykt < TO_DATE(?, 'Month DD YYYY', 'NLS_DATE_LANGUAGE = English') or"
+                    + " c.ngaybd > TO_DATE(?, 'Month DD YYYY', 'NLS_DATE_LANGUAGE = English')))";
+            dba_connection connect = new dba_connection();
+            try {
+                Class.forName(connect.driver);
+                Connection con = DriverManager.getConnection(connect.url, connect.username, connect.password);
+                PreparedStatement pst = con.prepareStatement(sql);            
+
+                pst.setString(1, txtServiceName.getText());
+                pst.setString(2, ngaybd);
+                pst.setString(3, ngaykt);
+                ResultSet rs = pst.executeQuery();
+                list_service.clear();
+
+                while(rs.next()){
+                    Service s = new Service();
+                    s.setMaDV(rs.getString("MADVP"));
+                    s.setTenDV(rs.getString("LOAIPHONG"));
+                    list_service.add(s);
                 }
-            });
-            
-        } catch (ClassNotFoundException | SQLException classNotFoundException) {
-            
+
+                model =  (DefaultTableModel) tabAvailableService.getModel();
+                model.setRowCount(0); 
+
+                for(Service s: list_service){
+                    model.addRow(new Object[]{
+                        s.getMaDV(),
+                        s.getTenDV()
+                    });
+                }
+
+                tabAvailableService.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        int row = tabAvailableService.getSelectedRow();
+                        if (row != -1) {
+                            String service_id = tabAvailableService.getValueAt(row, 0).toString();
+                            txtServiceID.setText(service_id.trim());
+                        }
+                    }
+                });
+
+            } catch (ClassNotFoundException | SQLException classNotFoundException) {
+
+            }            
         }
+
     }
     private void SearchS()
     {
@@ -538,10 +660,21 @@ public class CTHD_Form extends javax.swing.JFrame {
             
             for(Service s: list_service){
                 model.addRow(new Object[]{
-                s.getMaDV(),
-                s.getTenDV()
-            });
+                    s.getMaDV(),
+                    s.getTenDV()
+                });
             }
+            
+            tabAvailableService.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int row = tabAvailableService.getSelectedRow();
+                    if (row != -1) {
+                        String service_id = tabAvailableService.getValueAt(row, 0).toString();
+                        txtServiceID.setText(service_id.trim());
+                    }
+                }
+            });
             
         } catch (ClassNotFoundException | SQLException classNotFoundException) {
         }

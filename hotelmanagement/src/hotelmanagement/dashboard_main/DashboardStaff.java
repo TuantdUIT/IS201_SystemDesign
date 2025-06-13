@@ -34,6 +34,7 @@ public class DashboardStaff extends javax.swing.JFrame {
     int flag_checkout = 0;
     public DefaultTableModel model = new DefaultTableModel();
     private Point Initial_click;
+ 
     public ArrayList<Payout> list_Payout = new ArrayList<>();
     public ArrayList<Service_payout> ser_list = new ArrayList<>();
     public ArrayList<Invoice> invoices = new ArrayList<>();
@@ -1042,7 +1043,7 @@ public class DashboardStaff extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
+            .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, 665, Short.MAX_VALUE)
         );
 
         pack();
@@ -1291,6 +1292,7 @@ public class DashboardStaff extends javax.swing.JFrame {
         }
     }
     
+    
     public void autoReloadInvoice(){
         invoices.clear(); // Xoá dữ liệu cũ trong danh sách     
         String sql = "SELECT * FROM HOADON ORDER BY MAHD ASC";
@@ -1361,6 +1363,8 @@ public class DashboardStaff extends javax.swing.JFrame {
 //            }            
 //        });
     }
+    
+
     
     private void btnCustomerManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomerManagementActionPerformed
         // TODO add your handling code here:
@@ -1602,7 +1606,7 @@ public class DashboardStaff extends javax.swing.JFrame {
                     PreparedStatement pst = con.prepareStatement(sql);    
                     ResultSet rs = pst.executeQuery();
                     if(rs.next()){
-                        new CTHD_Form(makh, ngaybd, ngaykt, serviceName, Amount).setVisible(true);
+                        new CTHD_Form(this, makh, ngaybd, ngaykt, serviceName, Amount).setVisible(true);
                     }else{
                         int yes = JOptionPane.showConfirmDialog(this, "Customer doesn't have an invoice, create a new one?", "Create", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if(yes == JOptionPane.YES_OPTION){
@@ -1651,9 +1655,10 @@ public class DashboardStaff extends javax.swing.JFrame {
             JPopupMenu menu = new JPopupMenu();
             JMenuItem show_cthd = new JMenuItem("Show details");
             menu.add(show_cthd);
-            
+            int row_selected = tblInvoices.getSelectedRow();
             show_cthd.addActionListener(e ->{
-                CTHD_Dashboard frame = new CTHD_Dashboard();
+                String mahd = tblInvoices.getValueAt(row_selected, 0).toString();
+                CTHD_Dashboard frame = new CTHD_Dashboard(mahd);
                 frame.setVisible(true);
             });
             menu.show(evt.getComponent(), evt.getX(), evt.getY());
@@ -1741,7 +1746,9 @@ public class DashboardStaff extends javax.swing.JFrame {
             }
         });
     }
-
+    public JTable getTabRequest(){
+        return Request_tab;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CardLayout_Management;
     private javax.swing.JPanel CardPayCheckout;
@@ -1813,4 +1820,6 @@ public class DashboardStaff extends javax.swing.JFrame {
     private javax.swing.JTable tblRooms;
     private javax.swing.JTable tblServices;
     // End of variables declaration//GEN-END:variables
+
+
 }

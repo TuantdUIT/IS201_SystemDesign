@@ -20,14 +20,18 @@ public class CTHD_Dashboard extends javax.swing.JFrame {
      */
     public ArrayList<CTHD> list_cthd = new ArrayList<>();
     public DefaultTableModel model = new DefaultTableModel();
+    private String mahd;
     public CTHD_Dashboard() {
-        initComponents();
-              
+        initComponents();             
     }
-
+    public CTHD_Dashboard(String mahd){
+        initComponents();
+        this.mahd = mahd;
+        autoReloadCTHD();
+    }
     public void autoReloadCTHD(){
         list_cthd.clear();
-        String sql = "SELECT * FROM CTHD";    
+        String sql = "SELECT * FROM CTHD WHERE MAHD = '" + mahd +"'";    
         dba_connection connect = new dba_connection();
         
         try {
