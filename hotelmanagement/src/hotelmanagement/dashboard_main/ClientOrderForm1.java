@@ -70,7 +70,7 @@ public class ClientOrderForm1 extends javax.swing.JFrame {
         txtRequest = new javax.swing.JTextField();
         cbxService = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnSend = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -154,11 +154,11 @@ public class ClientOrderForm1 extends javax.swing.JFrame {
                 .addGap(50, 50, 50))
         );
 
-        jButton1.setText("Send");
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSend.setText("Send");
+        btnSend.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSendActionPerformed(evt);
             }
         });
 
@@ -176,7 +176,7 @@ public class ClientOrderForm1 extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(27, Short.MAX_VALUE))
@@ -187,7 +187,7 @@ public class ClientOrderForm1 extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
-                    .addComponent(jButton1))
+                    .addComponent(btnSend))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -224,7 +224,7 @@ public class ClientOrderForm1 extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
         // TODO add your handling code here:
         if(dateStarted.getDate() == null || dateEnded.getDate() == null)
         {
@@ -283,7 +283,7 @@ public class ClientOrderForm1 extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Cannot connect to PHIEUDAT database " + ex.getMessage());
             }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnSendActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
@@ -332,11 +332,11 @@ public class ClientOrderForm1 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnSend;
     private javax.swing.JComboBox<String> cbxService;
     private com.github.lgooddatepicker.components.DatePicker dateEnded;
     private com.github.lgooddatepicker.components.DatePicker dateStarted;
     private com.github.lgooddatepicker.components.DateTimePicker dateTimePicker1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -145,11 +145,11 @@ public class DashboardClient extends javax.swing.JFrame {
         model.setRowCount(0); 
 
         for (Service r : services) {
-            model.addRow(new Object[] {
-            r.getMaDV(),
-            r.getTenDV(),
-            r.getMoTa(),
-            r.getDonGia()
+                model.addRow(new Object[] {
+                r.getMaDV(),
+                r.getTenDV(),
+                r.getMoTa(),
+                r.getDonGia()
             });
         }
     }

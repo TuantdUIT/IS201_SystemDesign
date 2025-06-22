@@ -195,10 +195,10 @@ public class AddRoomForm extends javax.swing.JFrame {
             PreparedStatement pst = null;
             pst = con.prepareStatement(sql);           
             pst.setString(1, type);
-            pst.setString(2, describe);
+            pst.setString(2, describe); 
             pst.setInt(3, price);
             pst.setString(4, "Available");
-            pst.executeUpdate();
+            pst.executeUpdate();    
             JOptionPane.showMessageDialog(this, "Add room sucessfully!");
             pst.close();
             
